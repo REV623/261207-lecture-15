@@ -5,6 +5,19 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const callUserLogin = async () => {
+    try{
+      const resp = await axios.post("/api/user/login",{username,password})
+      if(resp.data.ok){
+        localStorage.setItem("token", resp.data.token)
+        router.push("/dashboard")
+      }
+    }catch(e){
+      alert(e.response.data.message)
+    }
+  }
 
   return (
     <div>
